@@ -1,10 +1,7 @@
 package dev.miguel.screenmatch.main;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import dev.miguel.screenmatch.model.Episode;
@@ -58,19 +55,31 @@ public class Main {
 
 		episodes.forEach(System.out::println);
 
-		System.out.println("From what year do you want to see the episodes? ");
+		System.out.println("Wich episode are you looking for? ");
+		String title = read.nextLine();
+		Optional<Episode> searchedEpisode = episodes.stream()
+				.filter(e -> e.getTitle().toUpperCase().contains(title.toUpperCase()))
+				.findFirst();
 
-		int year = read.nextInt();
-		read.nextLine();
-
-		LocalDate searchDate = LocalDate.of(year, 1, 1);
-
-		episodes.stream()
-			.filter(e -> e.getReleaseDate() != null && e.getReleaseDate().isAfter(searchDate))
-			.forEach(e -> System.out.println(
-				"Season: " + e.getSeason() +
-				"Episode: " + e.getNumber() +
-				"Release Date:" + e.getReleaseDate()
-			));
+		if (searchedEpisode.isPresent()) {
+			System.out.println("Episode found!");
+			System.out.println("Season: " + searchedEpisode.get().getSeason());
+		} else {
+			System.out.println("Episode not found :(");
+		}
+//		System.out.println("From what year do you want to see the episodes? ");
+//
+//		int year = read.nextInt();
+//		read.nextLine();
+//
+//		LocalDate searchDate = LocalDate.of(year, 1, 1);
+//
+//		episodes.stream()
+//			.filter(e -> e.getReleaseDate() != null && e.getReleaseDate().isAfter(searchDate))
+//			.forEach(e -> System.out.println(
+//				"Season: " + e.getSeason() +
+//				"Episode: " + e.getNumber() +
+//				"Release Date:" + e.getReleaseDate()
+//			));
 	}
 }
