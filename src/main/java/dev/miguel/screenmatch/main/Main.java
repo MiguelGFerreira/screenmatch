@@ -2,6 +2,7 @@ package dev.miguel.screenmatch.main;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import dev.miguel.screenmatch.model.Episode;
@@ -81,5 +82,17 @@ public class Main {
 //				"Episode: " + e.getNumber() +
 //				"Release Date:" + e.getReleaseDate()
 //			));
+
+		Map<Integer, Double> ratingPerSeason = episodes.stream()
+			.filter(e -> e.getRating() > 0.0)
+			.collect(Collectors.groupingBy(Episode::getSeason,
+				Collectors.averagingDouble(Episode::getRating)));
+
+		System.out.println(ratingPerSeason);
+
+		DoubleSummaryStatistics est = episodes.stream()
+			.filter(e -> e.getRating() > 0.0)
+			.collect(Collectors.summarizingDouble(Episode::getRating));
+		System.out.println(est);
 	}
 }
