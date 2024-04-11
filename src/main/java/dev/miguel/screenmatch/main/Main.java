@@ -1,7 +1,10 @@
 package dev.miguel.screenmatch.main;
 
 import java.util.*;
+import java.util.stream.Collectors;
+
 import dev.miguel.screenmatch.model.SeasonData;
+import dev.miguel.screenmatch.model.Serie;
 import dev.miguel.screenmatch.model.SeriesData;
 import dev.miguel.screenmatch.service.DataConverter;
 import dev.miguel.screenmatch.service.UseApi;
@@ -76,6 +79,12 @@ public class Main {
     }
 
 	private void showSearchedSeries() {
-		seriesData.forEach(System.out::println);
+        List<Serie> series = new ArrayList<>();
+        seriesData.stream()
+            .map(s -> new Serie(s))
+            .collect(Collectors.toList());
+		series.stream()
+            .sorted(Comparator.comparing(Serie::getGenre))
+            .forEach(System.out::println);
 	}
 }
