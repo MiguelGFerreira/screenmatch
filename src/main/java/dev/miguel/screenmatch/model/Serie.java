@@ -1,5 +1,7 @@
 package dev.miguel.screenmatch.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.OptionalDouble;
 
 import jakarta.persistence.Column;
@@ -9,6 +11,7 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "series")
@@ -24,6 +27,8 @@ public class Serie {
 	private String actors;
 	private String poster;
 	private String plot;
+	@Transient
+	private List<Episode> episodes = new ArrayList<>();
 
 	public Serie(SeriesData data) {
 		this.title = data.title();
@@ -41,6 +46,14 @@ public class Serie {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public List<Episode> getEpisodes() {
+		return episodes;
+	}
+
+	public void setEpisodes(List<Episode> episodes) {
+		this.episodes = episodes;
 	}
 	
 	public String getTitle() {

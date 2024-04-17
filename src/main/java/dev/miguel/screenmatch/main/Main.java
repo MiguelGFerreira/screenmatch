@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import dev.miguel.screenmatch.model.SeasonData;
 import dev.miguel.screenmatch.model.Serie;
 import dev.miguel.screenmatch.model.SeriesData;
+import dev.miguel.screenmatch.repository.SerieRepository;
 import dev.miguel.screenmatch.service.DataConverter;
 import dev.miguel.screenmatch.service.UseApi;
 
@@ -17,6 +18,11 @@ public class Main {
     private final String ADDRESS = "https://www.omdbapi.com/?t=";
     private final String API_KEY = "&apikey=6585022c";
 	private List<SeriesData> seriesData = new ArrayList<>();
+    private SerieRepository repository;
+
+    public Main(SerieRepository repository) {
+        this.repository = repository;
+    }
 
     public void showMenu() {
         var menu = """
@@ -54,7 +60,9 @@ public class Main {
 
     private void searchSerieWeb() {
         SeriesData data = getSeriesData();
-		seriesData.add(data);
+		//seriesData.add(data);
+        Serie serie = new Serie(data);
+        repository.save(serie);
         System.out.println(data);
     }
 
