@@ -10,8 +10,8 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
 
 @Entity
 @Table(name = "series")
@@ -27,8 +27,11 @@ public class Serie {
 	private String actors;
 	private String poster;
 	private String plot;
-	@Transient
+
+	@OneToMany(mappedBy = "serie")
 	private List<Episode> episodes = new ArrayList<>();
+
+	public Serie() {};
 
 	public Serie(SeriesData data) {
 		this.title = data.title();

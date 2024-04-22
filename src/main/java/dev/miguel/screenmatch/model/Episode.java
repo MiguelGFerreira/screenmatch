@@ -3,12 +3,26 @@ package dev.miguel.screenmatch.model;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "episodes")
 public class Episode {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 	private Integer season;
 	private String title;
 	private Integer number;
 	private Double rating;
 	private LocalDate releaseDate;
+	@ManyToOne
+	private Serie serie;
 
 	public Episode(Integer season, EpisodeData episodeData) {
 		this.season = season;
