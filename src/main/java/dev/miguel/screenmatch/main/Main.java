@@ -87,10 +87,7 @@ public class Main {
     }
 
 	private void showSearchedSeries() {
-        List<Serie> series = new ArrayList<>();
-        seriesData.stream()
-            .map(s -> new Serie(s))
-            .collect(Collectors.toList());
+        List<Serie> series = repository.findAll();
 		series.stream()
             .sorted(Comparator.comparing(Serie::getGenre))
             .forEach(System.out::println);
