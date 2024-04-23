@@ -24,6 +24,8 @@ public class Episode {
 	@ManyToOne
 	private Serie serie;
 
+	public Episode() {};
+
 	public Episode(Integer season, EpisodeData episodeData) {
 		this.season = season;
 		this.title = episodeData.title();
@@ -40,6 +42,22 @@ public class Episode {
 		} catch (DateTimeParseException e) {
 			this.releaseDate = null;
 		}
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public Serie getSerie() {
+		return serie;
+	}
+
+	public void setSerie(Serie serie) {
+		this.serie = serie;
 	}
 
 	public void setSeason(Integer season) {

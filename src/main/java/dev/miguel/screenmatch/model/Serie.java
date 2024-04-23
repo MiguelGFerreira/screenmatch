@@ -4,18 +4,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.OptionalDouble;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "series")
 public class Serie {
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	@Column(unique = true)
@@ -28,7 +32,7 @@ public class Serie {
 	private String poster;
 	private String plot;
 
-	@OneToMany(mappedBy = "serie")
+	@OneToMany(mappedBy = "serie", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Episode> episodes = new ArrayList<>();
 
 	public Serie() {};
@@ -56,6 +60,7 @@ public class Serie {
 	}
 
 	public void setEpisodes(List<Episode> episodes) {
+		episodes.forEach(e -> e.setSerie(this));
 		this.episodes = episodes;
 	}
 	
@@ -122,6 +127,7 @@ public class Serie {
 				", seasons=" + seasons +
 				", rating=" + rating +
 				", actors=" + actors +
-				", plot=" + plot;
+				", plot=" + plot +
+				", episodes=" + episodes;
 	}
 }
