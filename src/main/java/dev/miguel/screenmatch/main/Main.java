@@ -3,6 +3,8 @@ package dev.miguel.screenmatch.main;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import javax.swing.text.html.Option;
+
 import dev.miguel.screenmatch.model.Episode;
 import dev.miguel.screenmatch.model.SeasonData;
 import dev.miguel.screenmatch.model.Serie;
@@ -31,6 +33,7 @@ public class Main {
                 1 - Search series
                 2 - Search episodes
 				3 - Show searched series
+                4 - Search serie by title
                 
                 0 - Exit                                 
                 """;
@@ -51,6 +54,9 @@ public class Main {
 				case 3:
 					showSearchedSeries();
 					break;
+                case 4:
+                    searchSerieByTitle();
+                    break;
 				case 0:
 					System.out.println("Exiting...");
 					break;
@@ -80,9 +86,7 @@ public class Main {
         showSearchedSeries();
         System.out.println("Choose a serie by the name");
         var serieName = reader.nextLine();
-        Optional<Serie> serie = series.stream()
-            .filter(s -> s.getTitle().toLowerCase().contains(serieName.toLowerCase()))
-            .findFirst();
+        Optional<Serie> serie = repository.findByTitleContainingIgnoreCase(serieName);
 
         if(serie.isPresent()) {
             var foundSerie = serie.get();
@@ -113,4 +117,16 @@ public class Main {
             .sorted(Comparator.comparing(Serie::getGenre))
             .forEach(System.out::println);
 	}
+
+    private void searchSerieByTitle() {
+        System.out.println("Enter the serie's name: ");
+        var serieName = reader.nextLine();
+        Optional<Serie> searchedSerie = repository.findByTitleContainingIgnoreCase(serieName);
+
+        if (searchedSerie.isPresent()) {
+            System.out.println(searchedSerie.get());
+        } else {
+            System.out.println("Serie not found!");
+        }
+    }
 }
