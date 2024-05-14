@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import dev.miguel.screenmatch.dto.EpisodeDTO;
 import dev.miguel.screenmatch.dto.SerieDTO;
 import dev.miguel.screenmatch.model.Serie;
 import dev.miguel.screenmatch.repository.SerieRepository;
@@ -43,6 +44,19 @@ public class SerieService {
 			Serie s = serie.get();
 			return new SerieDTO(s.getId(), s.getTitle(), s.getSeasons(), s.getRating(), s.getGenre(), s.getActors(),
 					s.getPoster(), s.getPlot());
+		}
+
+		return null;
+	}
+
+	public List<EpisodeDTO> getAllSeasons(Long id) {
+		Optional<Serie> serie = repository.findById(id);
+
+		if (serie.isPresent()) {
+			Serie s = serie.get();
+			return s.getEpisodes().stream()
+							.map(e -> new EpisodeDTO(e.getSeason(), e.getNumber(), e.getTitle()))
+							.collect(Collectors.toList());
 		}
 
 		return null;

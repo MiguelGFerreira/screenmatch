@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import dev.miguel.screenmatch.dto.EpisodeDTO;
 import dev.miguel.screenmatch.dto.SerieDTO;
 import dev.miguel.screenmatch.service.SerieService;
 
@@ -36,5 +37,10 @@ public class SerieController {
 	@GetMapping("/{id}")
 	public SerieDTO getById(@PathVariable Long id) {
 		return service.getById(id);
+	}
+
+	@GetMapping("/{id}/seasons/all")
+	public List<EpisodeDTO> getAllSeasons(@PathVariable Long id) {
+		return service.getAllSeasons(id);
 	}
 }
