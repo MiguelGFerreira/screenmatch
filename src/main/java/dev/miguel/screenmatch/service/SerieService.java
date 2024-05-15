@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import dev.miguel.screenmatch.dto.EpisodeDTO;
 import dev.miguel.screenmatch.dto.SerieDTO;
+import dev.miguel.screenmatch.model.Genres;
 import dev.miguel.screenmatch.model.Serie;
 import dev.miguel.screenmatch.repository.SerieRepository;
 
@@ -67,5 +68,10 @@ public class SerieService {
 				.stream()
 				.map(e -> new EpisodeDTO(e.getSeason(), e.getNumber(), e.getTitle()))
 				.collect(Collectors.toList());
+	}
+
+	public List<SerieDTO> getSeriesByGenre(String genreName) {
+		Genres genre = Genres.fromString(genreName);
+		return dataConverter(repository.findByGenre(genre));
 	}
 }
