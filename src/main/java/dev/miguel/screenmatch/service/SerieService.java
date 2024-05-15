@@ -55,10 +55,17 @@ public class SerieService {
 		if (serie.isPresent()) {
 			Serie s = serie.get();
 			return s.getEpisodes().stream()
-							.map(e -> new EpisodeDTO(e.getSeason(), e.getNumber(), e.getTitle()))
-							.collect(Collectors.toList());
+					.map(e -> new EpisodeDTO(e.getSeason(), e.getNumber(), e.getTitle()))
+					.collect(Collectors.toList());
 		}
 
 		return null;
+	}
+
+	public List<EpisodeDTO> getSeasonByNumber(Long id, Long num) {
+		return repository.getEpisodesBySeason(id, num)
+				.stream()
+				.map(e -> new EpisodeDTO(e.getSeason(), e.getNumber(), e.getTitle()))
+				.collect(Collectors.toList());
 	}
 }
